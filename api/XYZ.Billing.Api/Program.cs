@@ -44,6 +44,10 @@ await using (AsyncServiceScope scope = app.Services.CreateAsyncScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "XYZ Billing API v1");
+    });
 }
 
 app.UseCors("Frontend");
