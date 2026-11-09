@@ -1,4 +1,4 @@
-# XYZ Billing
+# Home Task - XYZ Billing
 
 A small full-stack billing application for "XYZ Inc.". 
 Users submit orders through a web UI and the backend processes them through mocked payment gateways and returns a receipt or error.
