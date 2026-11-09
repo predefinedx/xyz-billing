@@ -1,0 +1,149 @@
+<main class="container py-4">
+  <header class="mb-4">
+    <h1 class="h2">Process a payment</h1>
+    <p class="text-secondary mb-0">Submit an order to one of our mock payment gateways.</p>
+  </header>
+
+  <div class="row g-4">
+    <section class="col-lg-7" aria-labelledby="order-form-title">
+      <div class="card">
+        <div class="card-body">
+          <h2 id="order-form-title" class="h5 mb-3">Order details</h2>
+
+          <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="orderNumber" class="form-label">Order number</label>
+                <input
+                  id="orderNumber"
+                  name="orderNumber"
+                  class="form-control"
+                  type="text"
+                  formControlName="orderNumber"
+                  maxlength="100"
+                  placeholder="e.g. ORD-1042"
+                />
+                @if (
+                  orderForm.controls.orderNumber.invalid && orderForm.controls.orderNumber.touched
+                ) {
+                  <div class="invalid-feedback d-block">Enter an order number.</div>
+                }
+              </div>
+
+              <div class="col-md-6">
+                <label for="userId" class="form-label">User ID</label>
+                <input
+                  id="userId"
+                  name="userId"
+                  class="form-control"
+                  type="text"
+                  formControlName="userId"
+                  maxlength="100"
+                  placeholder="e.g. user-27"
+                />
+                @if (orderForm.controls.userId.invalid && orderForm.controls.userId.touched) {
+                  <div class="invalid-feedback d-block">Enter a user ID.</div>
+                }
+              </div>
+
+              <div class="col-md-6">
+                <label for="amount" class="form-label">Amount (€)</label>
+                <input
+                  id="amount"
+                  name="amount"
+                  class="form-control"
+                  type="number"
+                  formControlName="amount"
+                  min="0.01"
+                  max="999999999.99"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+                @if (orderForm.controls.amount.invalid && orderForm.controls.amount.touched) {
+                  <div class="invalid-feedback d-block">
+                    Enter €0.01–€999,999,999.99
+                  </div>
+                }
+              </div>
+
+              <div class="col-md-6">
+                <label for="paymentGatewayId" class="form-label">Payment gateway</label>
+                <select
+                  id="paymentGatewayId"
+                  name="paymentGatewayId"
+                  class="form-select"
+                  formControlName="paymentGatewayId"
+                >
+                  <option value="mock-success">Mock gateway (approve)</option>
+                  <option value="mock-failure">Mock gateway (decline)</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="description" class="form-label">
+                  Description <span class="text-secondary">(optional)</span>
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  class="form-control"
+                  rows="3"
+                  formControlName="description"
+                  maxlength="500"
+                  placeholder="What is this order for?"
+                ></textarea>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-primary mt-3"
+              type="submit"
+              [disabled]="orderForm.invalid || loading()"
+            >
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                Processing payment…
+              } @else {
+                Submit order
+              }
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <aside class="col-lg-5" aria-live="polite">
+      @if (receipt(); as paidReceipt) {
+        <div class="alert alert-success" role="status">
+          <h2 class="h5">Payment confirmed</h2>
+          <dl class="row mb-0">
+            <dt class="col-sm-4">Order</dt>
+            <dd class="col-sm-8">{{ paidReceipt.orderNumber }}</dd>
+            <dt class="col-sm-4">Amount</dt>
+            <dd class="col-sm-8">{{ paidReceipt.amount | currency: 'EUR' : 'symbol' : '1.2-2' }}</dd>
+            <dt class="col-sm-4">Confirmed</dt>
+            <dd class="col-sm-8">{{ paidReceipt.timestamp | date: 'medium' }}</dd>
+            <dt class="col-sm-4">Confirmation</dt>
+            <dd class="col-sm-8 text-break mb-0">{{ paidReceipt.confirmation }}</dd>
+          </dl>
+        </div>
+      } @else if (errorMessage(); as message) {
+        <div class="alert alert-danger" role="alert">
+          <h2 class="h5">Payment not completed</h2>
+          <p class="mb-0">{{ message }}</p>
+        </div>
+      } @else {
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h6">How to try it</h2>
+            <ul class="text-secondary mb-0">
+              <li>Choose <strong>approve</strong> to receive a payment receipt.</li>
+              <li>Choose <strong>decline</strong> to see a payment error.</li>
+              <li>Submit the same order number again to see idempotent behavior.</li>
+            </ul>
+          </div>
+        </div>
+      }
+    </aside>
+  </div>
+</main>
