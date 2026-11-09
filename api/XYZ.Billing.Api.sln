@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYZ.Billing.Domain", "XYZ.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYZ.Billing.Persistence", "XYZ.Billing.Persistence\XYZ.Billing.Persistence.csproj", "{E1339BC6-2093-451A-BDD0-5F88B823B36C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYZ.Billing.Infrastructure", "XYZ.Billing.Infrastructure\XYZ.Billing.Infrastructure.csproj", "{ACBA6F86-5E49-4955-8625-96A41BCF4F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYZ.Billing.Application", "XYZ.Billing.Application\XYZ.Billing.Application.csproj", "{18B8FDA8-34DA-47E5-AFDD-6736E5BC1E23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{E1339BC6-2093-451A-BDD0-5F88B823B36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1339BC6-2093-451A-BDD0-5F88B823B36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1339BC6-2093-451A-BDD0-5F88B823B36C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBA6F86-5E49-4955-8625-96A41BCF4F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBA6F86-5E49-4955-8625-96A41BCF4F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBA6F86-5E49-4955-8625-96A41BCF4F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBA6F86-5E49-4955-8625-96A41BCF4F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B8FDA8-34DA-47E5-AFDD-6736E5BC1E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B8FDA8-34DA-47E5-AFDD-6736E5BC1E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B8FDA8-34DA-47E5-AFDD-6736E5BC1E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B8FDA8-34DA-47E5-AFDD-6736E5BC1E23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,7 @@
 using XYZ.Billing.Api.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
+using XYZ.Billing.Application.Payments;
+using XYZ.Billing.Infrastructure.Payments;
 using XYZ.Billing.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
+
+builder.Services.AddSingleton<IPaymentGateway, MockSuccessPaymentGateway>();
+builder.Services.AddSingleton<IPaymentGateway, MockFailurePaymentGateway>();
 
 WebApplication app = builder.Build();
 
