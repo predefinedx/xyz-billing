@@ -1,12 +1,32 @@
-var builder = WebApplication.CreateBuilder(args);
+using XYZ.Billing.Api.ErrorHandling;
+using Microsoft.EntityFrameworkCore;
+using XYZ.Billing.Persistence;
 
-// Add services to the container.
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+string databasePath = Path.Combine(builder.Environment.ContentRootPath, "billing.db");
+builder.Services.AddDbContext<BillingDbContext>(options => options.UseSqlite($"Data Source={databasePath}"));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
+WebApplication app = builder.Build();
+
+await using (AsyncServiceScope scope = app.Services.CreateAsyncScope())
+{
+    BillingDbContext dbContext = scope.ServiceProvider.GetRequiredService<BillingDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -14,9 +34,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("Frontend");
 
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
