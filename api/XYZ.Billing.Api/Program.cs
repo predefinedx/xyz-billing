@@ -1,8 +1,11 @@
 using XYZ.Billing.Api.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
+using XYZ.Billing.Application.Orders;
 using XYZ.Billing.Application.Payments;
+using XYZ.Billing.Domain.Repositories;
 using XYZ.Billing.Infrastructure.Payments;
 using XYZ.Billing.Persistence;
+using XYZ.Billing.Persistence.Repositories;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,10 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<IPaymentGateway, MockSuccessPaymentGateway>();
 builder.Services.AddSingleton<IPaymentGateway, MockFailurePaymentGateway>();
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 WebApplication app = builder.Build();
 

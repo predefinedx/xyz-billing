@@ -28,6 +28,11 @@ public class BaseRepository<T> : IBaseRepository<T>
         return await _dbContext.SaveChangesAsync(ct);
     }
 
+    public void DetachEntity(T entity)
+    {
+        _dbContext.Entry(entity).State = EntityState.Detached;
+    }
+
     public async Task<bool> ExistsAsync(Expression<Func<T, bool>> whereCondition, CancellationToken ct = default)
     {
         return await _dbSet.AnyAsync(whereCondition, ct);

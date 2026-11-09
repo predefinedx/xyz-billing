@@ -10,8 +10,8 @@ public interface IBaseRepository<T>
     IQueryable<T> GetQuery();
     
     Task<int> SaveChangesAsync(CancellationToken ct = default);
-    
-    Task<bool> ExistsAsync(Expression<Func<T, bool>> whereCondition, CancellationToken ct = default);
+
+    void DetachEntity(T entity);
     
     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct = default);
 }
